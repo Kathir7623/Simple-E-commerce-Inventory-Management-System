@@ -1,0 +1,113 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class InventoryManagementSystem {
+    private Map<String, Integer> inventory;
+    private Scanner scanner;
+
+    public InventoryManagementSystem() {
+        inventory = new HashMap<>();
+        scanner = new Scanner(System.in);
+    }
+
+    public void addProduct() {
+        System.out.print("Enter product name: ");
+        String productName = scanner.nextLine();
+
+        System.out.print("Enter quantity: ");
+        int quantity = scanner.nextInt();
+
+        if (inventory.containsKey(productName)) {
+            int currentQuantity = inventory.get(productName);
+            inventory.put(productName, currentQuantity + quantity);
+        } else {
+            inventory.put(productName, quantity);
+        }
+        System.out.println("Product added successfully.");
+    }
+
+    public void updateProduct() {
+        System.out.print("Enter product name: ");
+        String productName = scanner.nextLine();
+
+        if (inventory.containsKey(productName)) {
+            System.out.print("Enter new quantity: ");
+            int quantity = scanner.nextInt();
+
+            inventory.put(productName, quantity);
+            System.out.println("Product updated successfully.");
+        } else {
+            System.out.println("Product not found in inventory.");
+        }
+    }
+
+    public void removeProduct() {
+        System.out.print("Enter product name: ");
+        String productName = scanner.nextLine();
+
+        if (inventory.containsKey(productName)) {
+            inventory.remove(productName);
+            System.out.println("Product removed successfully.");
+        } else {
+            System.out.println("Product not found in inventory.");
+        }
+    }
+
+    public void checkStock() {
+        System.out.print("Enter product name: ");
+        String productName = scanner.nextLine();
+
+        if (inventory.containsKey(productName)) {
+            int stock = inventory.get(productName);
+            System.out.println("Available stock of " + productName + ": " + stock);
+        } else {
+            System.out.println("Product not found in inventory.");
+        }
+    }
+
+    public void closeScanner() {
+        scanner.close();
+    }
+
+    public static void main(String[] args) {
+        InventoryManagementSystem inventorySystem = new InventoryManagementSystem();
+        Scanner scanner = new Scanner(System.in);
+
+        boolean running = true;
+        while (running) {
+            System.out.println("1. Add product");
+            System.out.println("2. Update product");
+            System.out.println("3. Remove product");
+            System.out.println("4. Check stock");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume the newline character
+
+            switch (choice) {
+                case 1:
+                    inventorySystem.addProduct();
+                    break;
+                case 2:
+                    inventorySystem.updateProduct();
+                    break;
+                case 3:
+                    inventorySystem.removeProduct();
+                    break;
+                case 4:
+                    inventorySystem.checkStock();
+                    break;
+                case 5:
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+            System.out.println();
+        }
+
+        inventorySystem.closeScanner();
+    }
+}
